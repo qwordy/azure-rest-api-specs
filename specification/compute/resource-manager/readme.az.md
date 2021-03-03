@@ -2,13 +2,12 @@
 
 These settings apply only when `--az` is specified on the command line.
 
-``` yaml $(az) && $(target-mode) == "core"
+``` yaml $(az)
 az:
-  extensions: vm
+  extensions: cloud-service
   namespace: azure.mgmt.compute
   package-name: azure-mgmt-compute
-az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/vm
-python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/vm"
+az-output-folder: $(azure-cli-extension-folder)/src/cloudservice
 cli:
     cli-directive:
         - where:
@@ -16,12 +15,19 @@ cli:
             op: "*"
           hidden: true
         - where:
-            group: "SshPublicKeys"
+            group: "CloudServiceRoleInstances"
             op: "*"
           hidden: false
-directive: 
-  - where: 
-      command: vm ssh-public-key
-    set:
-      command: sshkey
+        - where:
+            group: "CloudServiceRoles"
+            op: "*"
+          hidden: false
+        - where:
+            group: "CloudServices"
+            op: "*"
+          hidden: false
+        - where:
+            group: "CloudServicesUpdateDomain"
+            op: "*"
+          hidden: false
 ```
